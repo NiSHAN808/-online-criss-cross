@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0px;
+        padding: 0px;
+      }
+        #background{
+            height: 100vh;
+            width: 100vw;
+            background-image: linear-gradient( 91deg,  rgba(72,154,78,1) 5.2%, rgba(251,206,70,1) 95.9% );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #box{
+          height: 25rem;
+          width: 32rem;
+          /* background-image: linear-gradient( 91deg,  rgba(72,154,78,1) 5.2%, rgba(251,206,70,1) 95.9% );;  */
+          border-radius: 1rem;
+    box-shadow: 0px 0px 10px 1px;
+        }
+        .game-name{
+          margin-left: 4%;
+    width: 92%;
+    height: 16%;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: cursive;
+    border-bottom: solid 1px;
+        }
+   ul{
+    height: 84%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   }
+   li{
+    cursor: default;
+    list-style: none;
+    font-size: 2rem;
+    font-family: sans-serif;
+    display: inline-block;
+    
+    height: 3.5rem;
+    width: 17rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0px 2px 10px 0px;
+   }
+   li:hover{
+    background-color: antiquewhite;
+   }
+    </style>
+</head>
+<body>
+    <div id="background">
+      <div id="box">
+        <div class="game-name">
+          Tiktak toe
+        </div>
+      <ul>
+        <li><a href="/playwf">Play with friends</a></li>
+        <li>Play with random</li>
+        <li>Setting</li>
+      </ul>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+     let name=prompt("Enter your name");
+     localStorage.setItem("name",name);
+      const li=document.getElementsByTagName('li');
+      
+       const socket=io();
+       li[0].addEventListener("click",()=>{
+       socket.emit('pwr-page-r',name);
+      }); 
+
+    </script>
+</body>
+</html>
