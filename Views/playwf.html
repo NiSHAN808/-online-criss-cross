@@ -108,7 +108,6 @@
     add_mr(4);
     add_mr(6);
     add_mr(7);
-
     add_mb(0);
     add_mb(1);
     add_mb(2);
@@ -144,11 +143,13 @@
     
     const socket=io();
     document.getElementsByClassName('you')[0].innerHTML=name;
-    
-       socket.emit('p-w-r',name);
+    let x="i-pn-s";
+       socket.emit(x,name);
        socket.on("connect",()=>{
-        console.log(socket.id);
-         socket.on(socket.id,(enemy_name,socid)=>{
+ console.log(socket.id);
+
+
+         socket.on(socket.id,(enemy_name)=>{
             console.log(enemy_name);
             enemy_i_b[0].innerHTML=enemy_name;
          });
