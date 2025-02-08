@@ -5,6 +5,7 @@ const http=require('http').Server(app);
 const io=require('socket.io')(http);
 
 const path=require('path');
+const { Socket } = require('socket.io');
 let htm_pat=path.join(__dirname,"/index.html");
 let playwf=path.join(__dirname,"/Views/playwf.html");
 let gamer1;
@@ -36,9 +37,14 @@ players.push(Socket.id);   console.log("socket id = " + players[numbers_of_playe
 numbers_of_players++;    console.log(numbers_of_players);
 
 if(numbers_of_players%2===0){
-    Socket.broadcast.emit(players[numbers_of_players-=2],name);
- Socket.emit(Socket.id,waiting_player);
- 
+    Socket.broadcast.emit(players[numbers_of_players-=2],name,"0");
+ Socket.emit(Socket.id,waiting_player,"1");
+Socket.on("0",(i)=>{
+ console.log(i)
+})   
+Socket.on("1",(i)=>{
+    console.log(i)
+   })  
 
 }else{
 waiting_player=name;
@@ -50,12 +56,11 @@ waiting_sockiet=Socket.id;
 
 });
 
+Socket.on('disconnect', () => {
+    console.log(Socket.id);
+});
 
-
-}
-
-
-);
+});
 
 
 function matchmaking(a,soID){

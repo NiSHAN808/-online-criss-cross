@@ -94,7 +94,7 @@
         </div>
     </div>
 <div class="out-box">
-<div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box">x</div><div class="inner-box">x</div><div class="inner-box">x</div>
+<div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box">.</div><div class="inner-box">.</div><div class="inner-box">.</div>
 </div>
 </div>
 </body>
@@ -148,12 +148,17 @@
        socket.on("connect",()=>{
  console.log(socket.id);
 
-
-         socket.on(socket.id,(enemy_name)=>{
+    const inner_box=document.getElementsByClassName('inner-box');
+         socket.on(socket.id,(enemy_name,pl_num)=>{
             console.log(enemy_name);
             enemy_i_b[0].innerHTML=enemy_name;
 
-            
+                 for(let i=0;i<9;i++){
+                        enemy_i_b[i].addEventListener('click',()=>{
+                            enemy_i_b.innerHTML="x";
+                        })
+                        socket.emit(pl_num,i);
+                 }
 
          });
 
