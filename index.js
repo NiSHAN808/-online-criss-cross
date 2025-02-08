@@ -55,7 +55,7 @@ waiting_sockiet=Socket.id;
 
 
 }
-/*
+
     Socket.on('pwr-page-r',(namee)=>{
        
       
@@ -75,7 +75,7 @@ waiting_sockiet=Socket.id;
             //     Socket.broadcast.emit(gamer1+"name1rec",nam);
             // });
     });  
-}*/
+
 );
 
 
