@@ -40,7 +40,11 @@ if(numbers_of_players%2===0){
     Socket.emit(Socket.id,waiting_player,room_id.toString(),2);
  Socket.broadcast.emit(players[numbers_of_players-=2],name,room_id.toString(),1);
   //Socket.on(room_id.toString(),player_no,position=>{
- 
+    Socket.on("0", (xx) =>{
+        // console.log(player_no + "     " + position);
+        console.log(xx);
+      
+       });       
 }else{
 waiting_player=name;
 }
@@ -49,11 +53,7 @@ Socket.on("0", (xx) =>{
   console.log(xx);
 
  });
- Socket.on("0", (xx) =>{
-  // console.log(player_no + "     " + position);
-  console.log(xx);
-
- }); 
+ 
 
 
 
