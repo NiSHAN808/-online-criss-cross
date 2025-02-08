@@ -36,11 +36,9 @@ players.push(Socket.id);   console.log("socket id = " + players[numbers_of_playe
 numbers_of_players++;    console.log(numbers_of_players);
 
 if(numbers_of_players%2===0){
-    Socket.emit(Socket.id,waiting_player);
- //   Socket.emit(players[numbers_of_players-=2],name);
- //   console.log(players[numbers_of_players-1]);
- Socket.broadcast.emit(waiting_sockiet,name);
- console.log(waiting_sockiet);
+    Socket.broadcast.emit(players[numbers_of_players-=2],name);
+ Socket.emit(Socket.id,waiting_player);
+ 
 
 }else{
 waiting_player=name;
@@ -56,25 +54,6 @@ waiting_sockiet=Socket.id;
 
 }
 
-    Socket.on('pwr-page-r',(namee)=>{
-       
-      
-    });
-    Socket.on('p-w-r',(nam)=>{
-     //true = matchmaking sucessfull  
-      console.log("                         ",Socket.id);
-    var matchmaking_status=matchmaking(nam,Socket.id);
-       if(matchmaking_status===true){
-       // console.log(gamer1_name,gamer2_name);
-       // console.log(Socket.id);
-         Socket.broadcast.emit(gamer1,gamer2_name,gamer1);
-         Socket.broadcast.emit(Socket.id,gamer1_name,gameno);
-       }
-            // Socket.on(gamer1+"name1",(nam)=>{
-            //     console.log(nam);
-            //     Socket.broadcast.emit(gamer1+"name1rec",nam);
-            // });
-    });  
 
 );
 
