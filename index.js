@@ -5,6 +5,7 @@ const http=require('http').Server(app);
 const io=require('socket.io')(http);
 
 const path=require('path');
+const { json } = require('stream/consumers');
 let htm_pat=path.join(__dirname,"/index.html");
 let playwf=path.join(__dirname,"/Views/playwf.html");
 let gamer1;
@@ -28,25 +29,31 @@ app.get("/playwf",(req,res)=>{
 var players=[];
 var numbers_of_players=0;
 var waiting_player;
-var waiting_sockiet;
+var room_id=0;
 
 io.on('connection',Socket=>{
 Socket.on("i-pn-s",(name)=>{
-players.push(Socket.id);   console.log("socket id = " + players[numbers_of_players]);
-numbers_of_players++;    console.log(numbers_of_players);
+players.push(Socket.id);   
+numbers_of_players++;    
 
 if(numbers_of_players%2===0){
-    Socket.emit(Socket.id,waiting_player);
- //   Socket.emit(players[numbers_of_players-=2],name);
- //   console.log(players[numbers_of_players-1]);
- Socket.broadcast.emit(waiting_sockiet,name);
- console.log(waiting_sockiet);
-
+    Socket.emit(Socket.id,waiting_player,room_id.toString(),2);
+ Socket.broadcast.emit(players[numbers_of_players-=2],name,room_id.toString(),1);
+  //Socket.on(room_id.toString(),player_no,position=>{
+ 
 }else{
 waiting_player=name;
-waiting_sockiet=Socket.id;
 }
+Socket.on("0", (xx) =>{
+  // console.log(player_no + "     " + position);
+  console.log(xx);
 
+ });
+ Socket.on("0", (xx) =>{
+  // console.log(player_no + "     " + position);
+  console.log(xx);
+
+ }); 
 
 
 
@@ -55,48 +62,7 @@ waiting_sockiet=Socket.id;
 
 
 }
-/*
-    Socket.on('pwr-page-r',(namee)=>{
-       
-      
-    });
-    Socket.on('p-w-r',(nam)=>{
-     //true = matchmaking sucessfull  
-      console.log("                         ",Socket.id);
-    var matchmaking_status=matchmaking(nam,Socket.id);
-       if(matchmaking_status===true){
-       // console.log(gamer1_name,gamer2_name);
-       // console.log(Socket.id);
-         Socket.broadcast.emit(gamer1,gamer2_name,gamer1);
-         Socket.broadcast.emit(Socket.id,gamer1_name,gameno);
-       }
-            // Socket.on(gamer1+"name1",(nam)=>{
-            //     console.log(nam);
-            //     Socket.broadcast.emit(gamer1+"name1rec",nam);
-            // });
-    });  
-}*/
-);
-
-
-function matchmaking(a,soID){
-if(totalplayers%2 === 1){
-    gamer2=soID;
-    gamer2_name=a;
-    console.log(gamer1, gamer2);
-    gameno++;
-    totalplayers++;
-    return true;
-}else{
-    gamer1=soID;
-    gamer1_name=a;
-    console.log(gamer1, gamer2);
-    totalplayers++;
-    return false;
-}
-
-}
-
+)
 
 http.listen(8000,()=>{
     console.log('server started');

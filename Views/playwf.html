@@ -94,7 +94,7 @@
         </div>
     </div>
 <div class="out-box">
-<div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box extra_css_m-b">x</div><div class="inner-box">x</div><div class="inner-box">x</div><div class="inner-box">x</div>
+<div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box">.</div><div class="inner-box">.</div><div class="inner-box">.</div>
 </div>
 </div>
 </body>
@@ -149,9 +149,31 @@
  console.log(socket.id);
 
 
-         socket.on(socket.id,(enemy_name)=>{
-            console.log(enemy_name);
+         socket.on(socket.id,(enemy_name,room_id,player_no)=>{
+            
             enemy_i_b[0].innerHTML=enemy_name;
+             let x=0;
+                 let inner_box=document.getElementsByClassName('inner-box')
+             for (let index = 0; index < 9; index++) {
+               inner_box[index].addEventListener('click',()=>{
+                inner_box[index].innerHTML="x";
+               // socket.emit(room_id,player_no,index);
+               console.log(player_no,index,room_id);
+               socket.emit(room_id,"hellow");
+              // socket.broadcast.emit("xyz",player_no,index);
+                 // console.log(index);
+               }); }
+               /*
+                              socket.on(room_id,(player_no_rec,po)=>{
+                      if(player_no_rec != player_no){
+                        inner_box[po].innerHTML="o";
+                      }      
+                      
+                })
+               
+               */
+
+                 
          });
 
         
