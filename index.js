@@ -58,6 +58,9 @@ Socket.broadcast.emit(temp,position);
 
 });
 
+Socket.on('disconnect', () => {
+    console.log(Socket.id);
+});
 
 
 }
