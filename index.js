@@ -37,21 +37,20 @@ players.push(Socket.id);
 numbers_of_players++;    
 
 if(numbers_of_players%2===0){
-    Socket.emit(Socket.id,waiting_player,room_id.toString(),2);
- Socket.broadcast.emit(players[numbers_of_players-=2],name,room_id.toString(),1);
+    console.log(numbers_of_players-2);
+    console.log(numbers_of_players-1);
+    let x=numbers_of_players;
+    Socket.emit(Socket.id,waiting_player,room_id.toString(),x-2);
+ Socket.broadcast.emit(players[numbers_of_players-=2],name,room_id.toString(),x-1);
   //Socket.on(room_id.toString(),player_no,position=>{
-    Socket.on("0", (xx) =>{
-        // console.log(player_no + "     " + position);
-        console.log(xx);
-      
-       });       
+       
 }else{
 waiting_player=name;
 }
-Socket.on("0", (xx) =>{
-  // console.log(player_no + "     " + position);
-  console.log(xx);
-
+Socket.on("game-move", (enmy,position) =>{
+let temp=players[enmy]+"moves";
+console.log(temp);
+Socket.broadcast.emit(temp,position);
  });
  
 
