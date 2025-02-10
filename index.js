@@ -27,23 +27,24 @@ app.get("/playwf",(req,res)=>{
 
 
 var players=[];
-var numbers_of_players=0;
+let numbers_of_players=0;
 var waiting_player;
 var room_id=0;
 
 io.on('connection',Socket=>{
 Socket.on("i-pn-s",(name)=>{
 players.push(Socket.id);   
-numbers_of_players++;    
+numbers_of_players++; 
+console.log(numbers_of_players);   
 
 if(numbers_of_players%2===0){
-    console.log(numbers_of_players-2);
-    console.log(numbers_of_players-1);
+   // console.log(numbers_of_players-2);
+   // console.log(numbers_of_players-1);
     let x=numbers_of_players;
     Socket.emit(Socket.id,waiting_player,room_id.toString(),x-2);
- Socket.broadcast.emit(players[numbers_of_players-=2],name,room_id.toString(),x-1);
+ Socket.broadcast.emit(players[x-=2],name,room_id.toString(),x-1);
   //Socket.on(room_id.toString(),player_no,position=>{
-       
+    console.log("after emit",numbers_of_players);    
 }else{
 waiting_player=name;
 }
