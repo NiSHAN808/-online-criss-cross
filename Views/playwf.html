@@ -25,6 +25,7 @@
         height: 7rem;
         width: 35rem;
         
+        
     }
     .player-out-box{
         
@@ -66,6 +67,7 @@
     
     .inner-box{
         background-color: white;
+        color: transparent;
         display: inline-flex;
         height: 6rem;
         width: 6rem;
@@ -114,68 +116,129 @@
     add_mb(3);
     add_mb(4);
     add_mb(5);
+
+
+
     function add_mr(a){
-  inner_box[a].style.marginRight="0.5rem";
+       inner_box[a].style.marginRight = "0.5rem";
     }
-    function add_mb(b){
-  inner_box[b].style.marginBottom="0.5rem";
+    function add_mb(b) {
+        inner_box[b].style.marginBottom = "0.5rem";
     }
+
+
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const name=localStorage.getItem("name");
-    
-    const your_score=document.getElementsByClassName('your-score');
-    const enemy_score=document.getElementsByClassName('enemy-score');
-    const enemy_i_b=document.getElementsByClassName('enemy-i-b');
+    const name = localStorage.getItem("name");
+    var name_p;
+    const your_score = document.getElementsByClassName('your-score');
+    const enemy_score = document.getElementsByClassName('enemy-score');
+    const enemy_i_b = document.getElementsByClassName('enemy-i-b');
     let pl1id;
 
-    heart_change(3,your_score);
-   heart_change(3,enemy_score);
+    heart_change(3, your_score);
+    heart_change(3, enemy_score);
     //function to change the number of heart
-    function heart_change(number_of_heart,who){
-        let printing_value="";
-        for(let i=0;i<number_of_heart;i++){
-         printing_value=printing_value+"&#10084;";
+    function heart_change(number_of_heart, who) {
+        let printing_value = "";
+        for (let i = 0; i < number_of_heart; i++) {
+            printing_value = printing_value + "&#10084;";
         }
-      who[0].innerHTML=`${printing_value}`;
+        who[0].innerHTML = `${printing_value}`;
     }
-    
-    const socket=io();
-    document.getElementsByClassName('you')[0].innerHTML=name;
-    let x="i-pn-s";
-       socket.emit(x,name);
-       socket.on("connect",()=>{
- console.log(socket.id);
+
+    const socket = io();
+    document.getElementsByClassName('you')[0].innerHTML = name;
+   // let x = "i-pn-s";
+    socket.emit("i-pn-s", name);
+    socket.on("connect", () => {
+        console.log(socket.id);
 
 
-         socket.on(socket.id,(enemy_name,room_id,player_no)=>{
-            var room_id_copy=room_id;
-            enemy_i_b[0].innerHTML=enemy_name;
-             let x=0;
-                 let inner_box=document.getElementsByClassName('inner-box')
-             for (let index = 0; index < 9; index++) {
-               inner_box[index].addEventListener('click',()=>{
-                inner_box[index].innerHTML="x";
-               
-               console.log(player_no,index,player_no);
-               socket.emit("game-move",player_no,index);
-  
-               }); }
-              let rec= socket.id+"moves";
-              console.log(rec);
-               socket.on(rec,(po)=>{
+        socket.on(socket.id, (enemy_name, room_id, player_no) => {
+            var room_id_copy = room_id;
+            name_p=enemy_name;
+            enemy_i_b[0].innerHTML = enemy_name;
+            let x = 0;
+            let players_position=[]; 
+            const inner_box = document.getElementsByClassName('inner-box');
+            for (let index = 0; index < 9; index++) {
+                inner_box[index].addEventListener('click', () => {
+                    players_position[index]=1;
+                    console.log(players_position);
+                    gamecheck(players_position,1);
+                    inner_box[index].innerHTML = "x";
+                    inner_box[index].style.color="black";
+                    console.log(player_no, index, player_no);
+                    socket.emit("game-move", player_no, index);
+
+
+                });
+            }
+            let rec = socket.id + "moves";
+            console.log(rec);
+            socket.on(rec, (po) => {
                 console.log("hellow");
-                inner_box[po].innerHTML="o";
+                inner_box[po].innerHTML = "o";
+                inner_box[po].style.color="red";
+                players_position[po]=2;
+                console.log(players_position);
+                gamecheck(players_position,2)
 
-               })
-
-                 
-         });
-
-        
+            })
        });
+ });
+
+function gamecheck(boxdef,number){
+    if (boxdef[0]==number && boxdef[1]==number && boxdef[2]==number){
+    win(0,1,2,number)
+  }
+ if (boxdef[3] == number && boxdef[4] == number && boxdef[5] == number) {
+     win(3, 4, 5, number)
+   }
+ if (boxdef[6] == number && boxdef[7] == number && boxdef[8] == number) {
+      win(6, 7, 8, number)
+    }
+ if (boxdef[0] == number && boxdef[3] == number && boxdef[6] == number) {
+       win(0, 3, 6, number)
+     }
+ if (boxdef[1] == number && boxdef[4] == number && boxdef[7] == number) {
+        win(1, 4, 7, number)
+      }
+ if (boxdef[2] == number && boxdef[5] == number && boxdef[8] == number) {
+         win(2, 5, 8, number)
+       }
+ if (boxdef[0] == number && boxdef[4] == number && boxdef[8] == number) {
+          win(0, 4, 8, number)
+        }
+ if (boxdef[2] == number && boxdef[4] == number && boxdef[6] == number) {
+           win(2, 4, 6, number)
+         }
+     }
+
+
+     function win(po1,po2,po3,number){
+
+
+   const inner_box = document.getElementsByClassName('inner-box');
+  let col;
+ if(number===1){
+   console.log(" player " +name+" won the game");
+    col="green";
+ }else {
+   console.log(" player " +name_p+" won the game");
+    col="red";
+ }
+ inner_box[po1].style.backgroundColor=col;
+ inner_box[po2].style.backgroundColor=col;
+ inner_box[po3].style.backgroundColor=col;
  
-  
+ inner_box[po1].style.color="white";
+ inner_box[po2].style.color="white";
+ inner_box[po3].style.color="white";
+ 
+}
 </script>
+
 </html>
