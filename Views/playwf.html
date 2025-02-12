@@ -165,11 +165,13 @@
             const inner_box = document.getElementsByClassName('inner-box');
             for (let index = 0; index < 9; index++) {
                 inner_box[index].addEventListener('click', () => {
+                    
                     players_position[index]=1;
                     console.log(players_position);
-                    gamecheck(players_position,1);
                     inner_box[index].innerHTML = "x";
                     inner_box[index].style.color="black";
+                    gamecheck(players_position,1);
+                    
                     console.log(player_no, index, player_no);
                     socket.emit("game-move", player_no, index);
 
