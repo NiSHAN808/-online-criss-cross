@@ -210,10 +210,11 @@
                     players_position[index]=1;
                     console.log("players . position run");
                     inner_box[index].innerHTML = "x";
-                    inner_box[index].style.color="black";
-                    gamecheck(players_position,1);
+                    inner_box[index].style.color="blue";
+                    
                     
                     socket.emit("game-move", player_no, index);
+                    gamecheck(players_position,1);
                         }else{
                             console.log("enemy turn");
                             alert(enemy_name+" turn not your's")
@@ -222,14 +223,14 @@
                 });
             }
             let rec = socket.id + "moves";
-            console.log(rec);
+            
             socket.on(rec, (po) => {
                 console.log("hellow");
                 inner_box[po].innerHTML = "o";
                 inner_box[po].style.color="red";
                 players_position[po]=2;
                 lat_move_pl=2;
-                console.log(players_position);
+                
                 gamecheck(players_position,2)
 
             })
@@ -271,35 +272,54 @@ function gamecheck(boxdef,number){
             let col;
             let alt_msg;
             if (number === 1) {
-                alt_msg=" Congrats " + name + ", won the game";
+               
                 enemy_life--;
                 heart_change(enemy_life, enemy_score);
                 players_position = [];
              
                 col = "green";
-            } else {
-                alt_msg=" player " + name_e + " won the game";
-                your_life--;
-                heart_change(your_life, your_score);
-                players_position = [];
-                
-                col = "red";
-            }
-            inner_box[po1].style.backgroundColor = col;
+                inner_box[po1].style.backgroundColor = col;
             inner_box[po2].style.backgroundColor = col;
             inner_box[po3].style.backgroundColor = col;
 
             inner_box[po1].style.color = "white";
             inner_box[po2].style.color = "white";
             inner_box[po3].style.color = "white";
+           
+           alt_msg=" Congrats " + name + ", you won the game";
+        
+            } else {
+                
+                your_life--;
+                heart_change(your_life, your_score);
+                players_position = [];
+                
+                col = "red";
+                inner_box[po1].style.backgroundColor = col;
+            inner_box[po2].style.backgroundColor = col;
+            inner_box[po3].style.backgroundColor = col;
 
-            alert(alt_msg);
-    for (let index = 0; index < 9; index++) {           
+            inner_box[po1].style.color = "white";
+            inner_box[po2].style.color = "white";
+            inner_box[po3].style.color = "white";
+           
+            alt_msg=" player " + name_e + " won the game";
+          
+            }
+            setTimeout(() => {
+                    
+       alert(alt_msg);        for (let index = 0; index < 9; index++) {           
          inner_box[index].innerHTML = ".";
      inner_box[index].style.color="rgba(0,0,0,0)";
-                    
-                 
-}
+     
+
+    }
+           inner_box[po1].style.backgroundColor = "white";
+            inner_box[po2].style.backgroundColor = "white";
+            inner_box[po3].style.backgroundColor = "white";
+    }, 500);
+
+        
         
 
 }
