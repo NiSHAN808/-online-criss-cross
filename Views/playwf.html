@@ -131,15 +131,21 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const name = localStorage.getItem("name");
+    document.getElementsByClassName('you')[0].innerHTML = name;
+
     var name_p;
     const your_score = document.getElementsByClassName('your-score');
     const enemy_score = document.getElementsByClassName('enemy-score');
     const enemy_i_b = document.getElementsByClassName('enemy-i-b');
-    let pl1id;
+    enemy_i_b[0].innerHTML="Waiting";
+    let players_position=[]; 
+    let lat_move_pl=0;  //1=current player 2=enemy
+    let your_life=3;
+    let enemy_life=3;
 
-    heart_change(3, your_score);
-    heart_change(3, enemy_score);
-    //function to change the number of heart
+    heart_change(your_life, your_score);
+    heart_change(enemy_life, enemy_score);
+    var intter;
     function heart_change(number_of_heart, who) {
         let printing_value = "";
         for (let i = 0; i < number_of_heart; i++) {
@@ -147,35 +153,72 @@
         }
         who[0].innerHTML = `${printing_value}`;
     }
+    watting()
+    function watting(){
+     intter=setInterval(function() {
+     letx=enemy_i_b[0].innerHTML;
+     if(enemy_i_b[0].innerHTML==="Waiting...."){
+        enemy_i_b[0].innerHTML="Waiting";
+     } else{
+        enemy_i_b[0].innerHTML=enemy_i_b[0].innerHTML+'.';
+     }
+    
+    
+   
+    },300);
+
+    }
+   let backG=document.getElementsByClassName('background');
+      
+
+
+
+
+
+
+
 
     const socket = io();
-    document.getElementsByClassName('you')[0].innerHTML = name;
-   // let x = "i-pn-s";
+    
+
+   
     socket.emit("i-pn-s", name);
     socket.on("connect", () => {
-        console.log(socket.id);
+        
 
 
         socket.on(socket.id, (enemy_name, room_id, player_no) => {
+
+            if(player_no%2===1){
+                lat_move_pl=1;//after this player 1 can do first move
+            }else{
+                lat_move_pl=2;
+            }
             var room_id_copy = room_id;
-            name_p=enemy_name;
+            name_e=enemy_name;
+            clearInterval(intter);
             enemy_i_b[0].innerHTML = enemy_name;
             let x = 0;
-            let players_position=[]; 
+            
             const inner_box = document.getElementsByClassName('inner-box');
             for (let index = 0; index < 9; index++) {
                 inner_box[index].addEventListener('click', () => {
-                    
+                    console.log(players_position[index]);
+                    if(players_position[index] === undefined ){    //make sure there is free space
+                        if(lat_move_pl===2){
+                            lat_move_pl=1;
                     players_position[index]=1;
-                    console.log(players_position);
+                    console.log("players . position run");
                     inner_box[index].innerHTML = "x";
                     inner_box[index].style.color="black";
                     gamecheck(players_position,1);
                     
-                    console.log(player_no, index, player_no);
                     socket.emit("game-move", player_no, index);
-
-
+                        }else{
+                            console.log("enemy turn");
+                            alert(enemy_name+" turn not your's")
+                        }
+                    }
                 });
             }
             let rec = socket.id + "moves";
@@ -185,6 +228,7 @@
                 inner_box[po].innerHTML = "o";
                 inner_box[po].style.color="red";
                 players_position[po]=2;
+                lat_move_pl=2;
                 console.log(players_position);
                 gamecheck(players_position,2)
 
@@ -220,27 +264,49 @@ function gamecheck(boxdef,number){
      }
 
 
-     function win(po1,po2,po3,number){
+     function win(po1, po2, po3, number) {
 
 
-   const inner_box = document.getElementsByClassName('inner-box');
-  let col;
- if(number===1){
-   console.log(" player " +name+" won the game");
-    col="green";
- }else {
-   console.log(" player " +name_p+" won the game");
-    col="red";
- }
- inner_box[po1].style.backgroundColor=col;
- inner_box[po2].style.backgroundColor=col;
- inner_box[po3].style.backgroundColor=col;
- 
- inner_box[po1].style.color="white";
- inner_box[po2].style.color="white";
- inner_box[po3].style.color="white";
- 
+            const inner_box = document.getElementsByClassName('inner-box');
+            let col;
+            let alt_msg;
+            if (number === 1) {
+                alt_msg=" Congrats " + name + ", won the game";
+                enemy_life--;
+                heart_change(enemy_life, enemy_score);
+                players_position = [];
+             
+                col = "green";
+            } else {
+                alt_msg=" player " + name_e + " won the game";
+                your_life--;
+                heart_change(your_life, your_score);
+                players_position = [];
+                
+                col = "red";
+            }
+            inner_box[po1].style.backgroundColor = col;
+            inner_box[po2].style.backgroundColor = col;
+            inner_box[po3].style.backgroundColor = col;
+
+            inner_box[po1].style.color = "white";
+            inner_box[po2].style.color = "white";
+            inner_box[po3].style.color = "white";
+
+            alert(alt_msg);
+    for (let index = 0; index < 9; index++) {           
+         inner_box[index].innerHTML = ".";
+     inner_box[index].style.color="rgba(0,0,0,0)";
+                    
+                 
 }
+        
+
+}
+
+    
+
+
 </script>
 
 </html>
