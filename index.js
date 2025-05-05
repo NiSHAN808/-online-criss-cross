@@ -3,7 +3,7 @@ const { SocketAddress } = require('net');
 const app=express();
 const http=require('http').Server(app);
 const io=require('socket.io')(http);
-
+const PORT = process.env.PORT || 3000;
 const path=require('path');
 const { json } = require('stream/consumers');
 let htm_pat=path.join(__dirname,"/index.html");
@@ -61,6 +61,6 @@ Socket.on('disconnect', () => {
 }
 )
 
-http.listen(8000,()=>{
+http.listen(PORT,()=>{
     console.log('server started');
 })
