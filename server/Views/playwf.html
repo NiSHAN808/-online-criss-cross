@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    .background{
+        height: 100vh;
+            width: 100vw;
+            background-image: linear-gradient( 91deg,  rgba(72,154,78,1) 5.2%, rgba(251,206,70,1) 95.9% );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+    }
+    .name-box{
+       
+        height: 7rem;
+        width: 35rem;
+        
+        
+    }
+    .player-out-box{
+        
+        height: 7rem;
+        width: 15rem;
+        display: inline-block;
+    }
+    .player-name{
+        font-size: 3rem;
+    font-family: fantasy;
+    
+    overflow: hidden;
+    }
+    .you{
+        color: blue; 
+    }
+    .enemy{
+        color:red;
+        
+        width: 100%;
+    }
+.enemy-i-b{
+    float: right;
+}
+    .float-right{
+     float: right;
+    }
+    .heart-count{
+         font-size: 2rem;
+    }
+    .enemy-score{
+        float:right;
+    }
+    .out-box{
+        background-color: rgb(0, 0, 0);
+        height: 19rem;
+        width: 19rem;
+    }
+    
+    .inner-box{
+        background-color: white;
+        color: transparent;
+        display: inline-flex;
+        height: 6rem;
+        width: 6rem;
+        font-family: cursive;
+        font-size: 3rem;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<body>
+<div class="background">
+    <div class="name-box">
+        <div class="player-out-box">
+           <div class="player-name you">
+            nisan
+           </div>
+        <div class="heart-count your-score">
+        </div>
+        </div>
+        <div class="player-out-box float-right">
+            <div class="player-name enemy">
+                <div class="enemy-i-b">nisan</div>
+                </div>
+        <div class="heart-count enemy-score">
+        </div>      
+        </div>
+    </div>
+<div class="out-box">
+<div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box extra_css_m-b">.</div><div class="inner-box">.</div><div class="inner-box">.</div><div class="inner-box">.</div>
+</div>
+</div>
+</body>
+<script>
+    
+
+    let inner_box=document.getElementsByClassName('inner-box');
+    add_mr(0);
+    add_mr(1);
+    add_mr(3);
+    add_mr(4);
+    add_mr(6);
+    add_mr(7);
+    add_mb(0);
+    add_mb(1);
+    add_mb(2);
+    add_mb(3);
+    add_mb(4);
+    add_mb(5);
+
+
+
+    function add_mr(a){
+       inner_box[a].style.marginRight = "0.5rem";
+    }
+    function add_mb(b) {
+        inner_box[b].style.marginBottom = "0.5rem";
+    }
+
+
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const name = localStorage.getItem("name");
+    document.getElementsByClassName('you')[0].innerHTML = name;
+
+    var name_p;
+    const your_score = document.getElementsByClassName('your-score');
+    const enemy_score = document.getElementsByClassName('enemy-score');
+    const enemy_i_b = document.getElementsByClassName('enemy-i-b');
+    enemy_i_b[0].innerHTML="Waiting";
+    let players_position=[]; 
+    let lat_move_pl=0;  //1=current player 2=enemy
+    let your_life=3;
+    let enemy_life=3;
+
+    heart_change(your_life, your_score);
+    heart_change(enemy_life, enemy_score);
+    var intter;
+    function heart_change(number_of_heart, who) {
+        let printing_value = "";
+        for (let i = 0; i < number_of_heart; i++) {
+            printing_value = printing_value + "&#10084;";
+        }
+        who[0].innerHTML = `${printing_value}`;
+    }
+    watting()
+    function watting(){
+     intter=setInterval(function() {
+     letx=enemy_i_b[0].innerHTML;
+     if(enemy_i_b[0].innerHTML==="Waiting...."){
+        enemy_i_b[0].innerHTML="Waiting";
+     } else{
+        enemy_i_b[0].innerHTML=enemy_i_b[0].innerHTML+'.';
+     }
+    
+    
+   
+    },300);
+
+    }
+   let backG=document.getElementsByClassName('background');
+      
+
+
+
+
+
+
+
+
+    const socket = io();
+    
+
+   
+    socket.emit("i-pn-s", name);
+    socket.on("connect", () => {
+        
+
+
+        socket.on(socket.id, (enemy_name, room_id, player_no) => {
+
+            if(player_no%2===1){
+                lat_move_pl=1;//after this player 1 can do first move
+            }else{
+                lat_move_pl=2;
+            }
+            var room_id_copy = room_id;
+            name_e=enemy_name;
+            clearInterval(intter);
+            enemy_i_b[0].innerHTML = enemy_name;
+            let x = 0;
+            
+            const inner_box = document.getElementsByClassName('inner-box');
+            for (let index = 0; index < 9; index++) {
+                inner_box[index].addEventListener('click', () => {
+                    console.log(players_position[index]);
+                    if(players_position[index] === undefined ){    //make sure there is free space
+                        if(lat_move_pl===2){
+                            lat_move_pl=1;
+                    players_position[index]=1;
+                    console.log("players . position run");
+                    inner_box[index].innerHTML = "x";
+                    inner_box[index].style.color="blue";
+                    
+                    
+                    socket.emit("game-move", player_no, index);
+                    gamecheck(players_position,1);
+                        }else{
+                            console.log("enemy turn");
+                            alert(enemy_name+" turn not your's")
+                        }
+                    }
+                });
+            }
+            let rec = socket.id + "moves";
+            
+            socket.on(rec, (po) => {
+                console.log("hellow");
+                inner_box[po].innerHTML = "o";
+                inner_box[po].style.color="red";
+                players_position[po]=2;
+                lat_move_pl=2;
+                
+                gamecheck(players_position,2)
+
+            })
+       });
+ });
+
+function gamecheck(boxdef,number){
+    if (boxdef[0]==number && boxdef[1]==number && boxdef[2]==number){
+    win(0,1,2,number)
+  }
+ if (boxdef[3] == number && boxdef[4] == number && boxdef[5] == number) {
+     win(3, 4, 5, number)
+   }
+ if (boxdef[6] == number && boxdef[7] == number && boxdef[8] == number) {
+      win(6, 7, 8, number)
+    }
+ if (boxdef[0] == number && boxdef[3] == number && boxdef[6] == number) {
+       win(0, 3, 6, number)
+     }
+ if (boxdef[1] == number && boxdef[4] == number && boxdef[7] == number) {
+        win(1, 4, 7, number)
+      }
+ if (boxdef[2] == number && boxdef[5] == number && boxdef[8] == number) {
+         win(2, 5, 8, number)
+       }
+ if (boxdef[0] == number && boxdef[4] == number && boxdef[8] == number) {
+          win(0, 4, 8, number)
+        }
+ if (boxdef[2] == number && boxdef[4] == number && boxdef[6] == number) {
+           win(2, 4, 6, number)
+         }
+     }
+
+
+     function win(po1, po2, po3, number) {
+
+
+            const inner_box = document.getElementsByClassName('inner-box');
+            let col;
+            let alt_msg;
+            if (number === 1) {
+               
+                enemy_life--;
+                heart_change(enemy_life, enemy_score);
+                players_position = [];
+             
+                col = "green";
+                inner_box[po1].style.backgroundColor = col;
+            inner_box[po2].style.backgroundColor = col;
+            inner_box[po3].style.backgroundColor = col;
+
+            inner_box[po1].style.color = "white";
+            inner_box[po2].style.color = "white";
+            inner_box[po3].style.color = "white";
+           
+           alt_msg=" Congrats " + name + ", you won the game";
+        
+            } else {
+                
+                your_life--;
+                heart_change(your_life, your_score);
+                players_position = [];
+                
+                col = "red";
+                inner_box[po1].style.backgroundColor = col;
+            inner_box[po2].style.backgroundColor = col;
+            inner_box[po3].style.backgroundColor = col;
+
+            inner_box[po1].style.color = "white";
+            inner_box[po2].style.color = "white";
+            inner_box[po3].style.color = "white";
+           
+            alt_msg=" player " + name_e + " won the game";
+          
+            }
+            setTimeout(() => {
+                    
+       alert(alt_msg);        for (let index = 0; index < 9; index++) {           
+         inner_box[index].innerHTML = ".";
+     inner_box[index].style.color="rgba(0,0,0,0)";
+     
+
+    }
+           inner_box[po1].style.backgroundColor = "white";
+            inner_box[po2].style.backgroundColor = "white";
+            inner_box[po3].style.backgroundColor = "white";
+    }, 500);
+
+        
+        
+
+}
+
+    
+
+
+</script>
+
+</html>
