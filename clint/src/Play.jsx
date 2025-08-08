@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 
-
-
 let socket;
 
 export const PlayWithFriends = () => {
@@ -13,42 +11,44 @@ export const PlayWithFriends = () => {
   const [positions, setPositions] = useState(Array(9).fill(null));
   const [playerNumber, setPlayerNumber] = useState(null);
   const [turn, setTurn] = useState(null);
+  console.log(positions);
+  useEffect(() => {
+    socket = io("http://localhost:8000");
 
-useEffect(() => {
-  socket = io("http://localhost:8000");
+    let name = localStorage.getItem("name");
+    if (name === null) name = "Guest";
+    setYourName(name);
+    socket.emit("i-pn-s", name);
 
-  let name = localStorage.getItem("name");
-  if(name===null) name="Guest";
-  setYourName(name);
-  socket.emit("i-pn-s", name);
+    const handleConnect = () => {
+      socket.on(socket.id, (enemy_name, room_id, player_no) => {
+        setEnemyName(enemy_name);
+        setPlayerNumber(player_no);
 
-  const handleConnect = () => {
-    socket.on(socket.id, (enemy_name, room_id, player_no) => {
-      setEnemyName(enemy_name);
-      setPlayerNumber(player_no);
-      
-      setTurn(player_no % 2 === 1 ? 1 : 2); console.log(turn);
-    });      console.log(socket.id);
-  socket.on(socket.id + "moves", handleMove);
-  };
+        setTurn(player_no % 2 === 1 ? 1 : 2);
+        console.log(turn);
+      });
+      console.log(socket.id);
+      socket.on(socket.id + "moves", handleMove);
+    };
 
-  const handleMove = (index) => {
-    updatePosition(index, 2);
-    setTurn(1);
-  };
+    const handleMove = (index) => {
+      updatePosition(index, 2);
+      setTurn(1);
+    };
 
-  socket.on("connect", handleConnect);
-  // console.log(socket.id);
-  // socket.on(socket.id + "moves", handleMove);
+    socket.on("connect", handleConnect);
+    // console.log(socket.id);
+    // socket.on(socket.id + "moves", handleMove);
 
-  // Cleanup
-  return () => {
-    socket.off("connect", handleConnect);
-    socket.off(socket.id, handleConnect);
-    socket.off(socket.id + "moves", handleMove);
-    socket.disconnect();
-  };
-}, []);
+    // Cleanup
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off(socket.id, handleConnect);
+      socket.off(socket.id + "moves", handleMove);
+      socket.disconnect();
+    };
+  }, []);
 
   const updatePosition = (index, player) => {
     setPositions((prev) => {
@@ -73,21 +73,24 @@ useEffect(() => {
   const hearts = (count) => {
     return Array(count).fill("❤️").join(" ");
   };
-
+  function checktWinner() {}
   return (
-<div className="min-h-screen w-full bg-gradient-to-r from-green-700 to-yellow-400 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-gradient-to-r from-green-700 to-yellow-400 flex flex-col items-center justify-center p-4">
       <div className="w-[50vw] max-w-4xl flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 sm:gap-8 mb-6">
         <div className="flex flex-col items-center">
-          <div className="text-2.5rem sm:text-3xl font-fantasy text-blue-700">{yourName}</div>
+          <div className="text-2.5rem sm:text-3xl font-fantasy text-blue-700">
+            {yourName}
+          </div>
           <div className="text-lg sm:text-2xl">{hearts(yourLife)}</div>
         </div>
         <div className="flex flex-col items-center">
-          <div className="text-2.5rem sm:text-3xl font-fantasy text-red-700">{enemyName}</div>
+          <div className="text-2.5rem sm:text-3xl font-fantasy text-red-700">
+            {enemyName}
+          </div>
           <div className="text-lg sm:text-2xl">{hearts(enemyLife)}</div>
         </div>
       </div>
-
-<div className="grid grid-cols-3 gap-2 w-full max-w-sm aspect-square bg-black">
+      <div className="grid grid-cols-3 gap-2 w-full max-w-sm aspect-square bg-black">
         {positions.map((value, idx) => (
           <div
             key={idx}
@@ -100,9 +103,12 @@ useEffect(() => {
             {value === 1 ? "X" : value === 2 ? "O" : "."}
           </div>
         ))}
-      </div> <div className="font-mono text-[1.5rem]">{turn===1 ? "your's" : "enemy's"}</div>
+      </div>{" "}
+      <div className="font-mono text-[1.5rem]">
+        {turn === 1 ? "your's" : "enemy's"}
+      </div>
     </div>
   );
 };
 
-export default PlayWithFriends        
+export default PlayWithFriends;
