@@ -11,7 +11,7 @@ export const PlayWithFriends = () => {
   const [positions, setPositions] = useState(Array(9).fill(null));
   const [playerNumber, setPlayerNumber] = useState(null);
   const [turn, setTurn] = useState(null);
-  console.log(positions);
+
   useEffect(() => {
     socket = io("http://localhost:8000");
 
@@ -26,14 +26,14 @@ export const PlayWithFriends = () => {
         setPlayerNumber(player_no);
 
         setTurn(player_no % 2 === 1 ? 1 : 2);
-        console.log(turn);
       });
-      console.log(socket.id);
+
       socket.on(socket.id + "moves", handleMove);
     };
 
     const handleMove = (index) => {
       updatePosition(index, 2);
+
       setTurn(1);
     };
 
@@ -50,6 +50,11 @@ export const PlayWithFriends = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (turn !== null) {
+      gamecheck(positions, turn === 1 ? 2 : 1); // Check previous player’s move
+    }
+  }, [positions]);
   const updatePosition = (index, player) => {
     setPositions((prev) => {
       const updated = [...prev];
@@ -61,6 +66,7 @@ export const PlayWithFriends = () => {
   const handleClick = (index) => {
     if (positions[index] === null && turn === 1) {
       updatePosition(index, 1);
+
       setTurn(2);
       socket.emit("game-move", playerNumber, index);
     } else if (positions[index] !== null) {
@@ -73,7 +79,69 @@ export const PlayWithFriends = () => {
   const hearts = (count) => {
     return Array(count).fill("❤️").join(" ");
   };
-  function checktWinner() {}
+  function gamecheck(positions, number) {
+    if (
+      positions[0] == number &&
+      positions[1] == number &&
+      positions[2] == number
+    ) {
+      win(0, 1, 2, number);
+    }
+    if (
+      positions[3] == number &&
+      positions[4] == number &&
+      positions[5] == number
+    ) {
+      win(3, 4, 5, number);
+    }
+    if (
+      positions[6] == number &&
+      positions[7] == number &&
+      positions[8] == number
+    ) {
+      win(6, 7, 8, number);
+    }
+    if (
+      positions[0] == number &&
+      positions[3] == number &&
+      positions[6] == number
+    ) {
+      win(0, 3, 6, number);
+    }
+    if (
+      positions[1] == number &&
+      positions[4] == number &&
+      positions[7] == number
+    ) {
+      win(1, 4, 7, number);
+    }
+    if (
+      positions[2] == number &&
+      positions[5] == number &&
+      positions[8] == number
+    ) {
+      win(2, 5, 8, number);
+    }
+    if (
+      positions[0] == number &&
+      positions[4] == number &&
+      positions[8] == number
+    ) {
+      win(0, 4, 8, number);
+    }
+    if (
+      positions[2] == number &&
+      positions[4] == number &&
+      positions[6] == number
+    ) {
+      win(2, 4, 6, number);
+    }
+  }
+
+  function win(po1, po2, po3, number) {
+    console.log(number, "win the game");
+  }
+
   return (
     <div className="min-h-screen w-full bg-gradient-to-r from-green-700 to-yellow-400 flex flex-col items-center justify-center p-4">
       <div className="w-[50vw] max-w-4xl flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 sm:gap-8 mb-6">
