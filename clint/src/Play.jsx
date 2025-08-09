@@ -149,10 +149,12 @@ export const PlayWithFriends = () => {
   }
 
   function win(po1, po2, po3, number) {
-    console.log(number, "win the game");
     updatePosition(po1, number * 10 + number);
     updatePosition(po2, number * 10 + number);
     updatePosition(po3, number * 10 + number);
+    console.log(
+      number === 1 ? "You Win The Round" : `${enemyName} Win The Round`
+    );
   }
 
   return (
