@@ -1,3 +1,13 @@
+//1 mean the clint it self
+// 2 mean the enemy of the clint
+// each person have their no 1 in their local and 2 for the enemy
+// positon 1 and 2 null represnts according to the occupied space
+// postion also have 11 and 11 for the winner which will only stay for shor time
+// 11 mean the clint is winer and 22 mean the enemy is winner respectively
+//11 the background is green where as the 22 mean the red back ground by that we can show the win move
+// afer the win postison all index get the null value to start fresh game
+// sorry for shity english but i know its understandable
+
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 
@@ -140,6 +150,9 @@ export const PlayWithFriends = () => {
 
   function win(po1, po2, po3, number) {
     console.log(number, "win the game");
+    updatePosition(po1, number * 10 + number);
+    updatePosition(po2, number * 10 + number);
+    updatePosition(po3, number * 10 + number);
   }
 
   return (
@@ -164,11 +177,23 @@ export const PlayWithFriends = () => {
             key={idx}
             className="flex items-center justify-center bg-white text-2xl sm:text-3xl font-cursive cursor-pointer"
             style={{
-              color: value === 1 ? "blue" : value === 2 ? "red" : "transparent",
+              color:
+                value === 1
+                  ? "blue"
+                  : value === 11
+                  ? "white"
+                  : value === 2
+                  ? "red"
+                  : value === 22
+                  ? "white"
+                  : "transparent",
+
+              background:
+                value === 11 ? "green" : value === 22 ? "red" : "white",
             }}
             onClick={() => handleClick(idx)}
           >
-            {value === 1 ? "X" : value === 2 ? "O" : "."}
+            {value === 1 || 11 ? "X" : value === 2 || 22 ? "O" : "."}
           </div>
         ))}
       </div>{" "}
