@@ -25,21 +25,22 @@ export const PlayWithFriends = () => {
 
   function Banner() {
     return (
-      <>
-        <div
-          style={{
-            display: winner === null ? "none" : "inline-flex",
-          }}
-          className="flex-col items-center  w-[50vw] lg:w-[40vw]  absolute top-0  left-[25vw] lg:left-[30vw] z-50 rounded-b-lg bg-[#fbfbfb] shadow-[0px_2px_20px_1px_#1b1b1b]"
-        >
+      <div
+        style={{
+          display: winner === null ? "none" : "inline-flex",
+        }}
+      >
+        <div className=" inline-flex w-full h-[100vh] absolute top-0 left-0 z-30 bg-[#4244426e] backdrop-blur-[4px] backdrop-brightness-[0.8]"></div>
+        <div className="inline-flex flex-col justify-center  w-[50vw] lg:w-[40vw]  absolute top-0  left-[25vw] lg:left-[30vw] z-50 rounded-b-lg bg-[#fbfbfb] shadow-[0px_2px_20px_1px_#1b1b1b]">
           <div
+            className="inline-flex  justify-center"
             style={{
               color: winner === 1 ? "green" : "#cc0000",
             }}
           >
             {winner === 1 ? "You Win The Round" : `${enemyName} Win The Round`}
           </div>
-          <div className="inline-flex">next round</div>
+          <div className="inline-flex  justify-center">next round</div>
           <div className="inline-flex w-full justify-between pl-[2vw] pr-[2vw] mt-[2vw]">
             <button
               type="button"
@@ -55,7 +56,7 @@ export const PlayWithFriends = () => {
             </button>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 
