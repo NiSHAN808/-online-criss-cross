@@ -21,6 +21,43 @@ export const PlayWithFriends = () => {
   const [positions, setPositions] = useState(Array(9).fill(null));
   const [playerNumber, setPlayerNumber] = useState(null);
   const [turn, setTurn] = useState(null);
+  const [winner, setWinner] = useState(null);
+
+  function Banner() {
+    return (
+      <>
+        <div
+          style={{
+            display: winner === null ? "none" : "inline-flex",
+          }}
+          className="flex-col items-center  w-[50vw] lg:w-[40vw]  absolute top-0  left-[25vw] lg:left-[30vw] z-50 rounded-b-lg bg-[#fbfbfb] shadow-[0px_2px_20px_1px_#1b1b1b]"
+        >
+          <div
+            style={{
+              color: winner === 1 ? "green" : "#cc0000",
+            }}
+          >
+            {winner === 1 ? "You Win The Round" : `${enemyName} Win The Round`}
+          </div>
+          <div className="inline-flex">next round</div>
+          <div className="inline-flex w-full justify-between pl-[2vw] pr-[2vw] mt-[2vw]">
+            <button
+              type="button"
+              class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+            >
+              exit game
+            </button>
+            <button
+              type="button"
+              class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            >
+              next round
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   useEffect(() => {
     socket = io("http://localhost:8000");
@@ -65,6 +102,7 @@ export const PlayWithFriends = () => {
       gamecheck(positions, turn === 1 ? 2 : 1); // Check previous player’s move
     }
   }, [positions]);
+
   const updatePosition = (index, player) => {
     setPositions((prev) => {
       const updated = [...prev];
@@ -89,6 +127,7 @@ export const PlayWithFriends = () => {
   const hearts = (count) => {
     return Array(count).fill("❤️").join(" ");
   };
+
   function gamecheck(positions, number) {
     if (
       positions[0] == number &&
@@ -152,9 +191,10 @@ export const PlayWithFriends = () => {
     updatePosition(po1, number * 10 + number);
     updatePosition(po2, number * 10 + number);
     updatePosition(po3, number * 10 + number);
-    console.log(
-      number === 1 ? "You Win The Round" : `${enemyName} Win The Round`
-    );
+    // console.log(
+    //   number === 1 ? "You Win The Round" : `${enemyName} Win The Round`
+    // );
+    setWinner(number);
   }
 
   return (
@@ -202,6 +242,7 @@ export const PlayWithFriends = () => {
       <div className="font-mono text-[1.5rem]">
         {turn === 1 ? "your's" : "enemy's"}
       </div>
+      <Banner />
     </div>
   );
 };
