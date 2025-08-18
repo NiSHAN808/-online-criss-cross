@@ -27,12 +27,6 @@ export const PlayWithFriends = () => {
 
   function nextRoundClick() {
     setPositions(Array(9).fill(null));
-
-    if (winner === 2) {
-      setYourLife((prev) => prev - 1);
-    } else {
-      setEnemyLife((prev) => prev - 1);
-    }
     setWinner(null);
   }
 
@@ -210,6 +204,11 @@ export const PlayWithFriends = () => {
     // console.log(
     //   number === 1 ? "You Win The Round" : `${enemyName} Win The Round`
     // );
+    if (number === 2) {
+      setYourLife((prev) => prev - 1);
+    } else {
+      setEnemyLife((prev) => prev - 1);
+    }
     setWinner(number);
   }
 
