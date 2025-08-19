@@ -11,6 +11,7 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { Link } from "react-router";
+import Navbar from "./block/Navbarstyle";
 let socket;
 
 export const PlayWithFriends = () => {
@@ -213,51 +214,54 @@ export const PlayWithFriends = () => {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-r from-green-700 to-yellow-400 flex flex-col items-center justify-center p-4">
-      <div className="w-[50vw] max-w-4xl flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 sm:gap-8 mb-6">
-        <div className="flex flex-col items-center">
-          <div className="text-2.5rem sm:text-3xl font-fantasy text-blue-700">
-            {yourName}
+    <div className="min-h-screen w-full bg-gradient-to-r from-green-700 to-yellow-400">
+      <Navbar />
+      <div className="h-[90vh] w-full  flex flex-col items-center justify-center p-4">
+        <div className="w-[50vw] max-w-4xl flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 sm:gap-8 mb-6">
+          <div className="flex flex-col items-center">
+            <div className="text-2.5rem sm:text-3xl font-fantasy text-blue-700">
+              {yourName}
+            </div>
+            <div className="text-lg sm:text-2xl">{hearts(yourLife)}</div>
           </div>
-          <div className="text-lg sm:text-2xl">{hearts(yourLife)}</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="text-2.5rem sm:text-3xl font-fantasy text-red-700">
-            {enemyName}
+          <div className="flex flex-col items-center">
+            <div className="text-2.5rem sm:text-3xl font-fantasy text-red-700">
+              {enemyName}
+            </div>
+            <div className="text-lg sm:text-2xl">{hearts(enemyLife)}</div>
           </div>
-          <div className="text-lg sm:text-2xl">{hearts(enemyLife)}</div>
         </div>
-      </div>
-      <div className="grid grid-cols-3 gap-2 w-full max-w-sm aspect-square bg-black">
-        {positions.map((value, idx) => (
-          <div
-            key={idx}
-            className="flex items-center justify-center bg-white text-2xl sm:text-3xl font-cursive cursor-pointer"
-            style={{
-              color:
-                value === 1
-                  ? "blue"
-                  : value === 11
-                  ? "white"
-                  : value === 2
-                  ? "red"
-                  : value === 22
-                  ? "white"
-                  : "transparent",
+        <div className="grid grid-cols-3 gap-2 w-full max-w-sm aspect-square bg-black">
+          {positions.map((value, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-center bg-white text-2xl sm:text-3xl font-cursive cursor-pointer"
+              style={{
+                color:
+                  value === 1
+                    ? "blue"
+                    : value === 11
+                    ? "white"
+                    : value === 2
+                    ? "red"
+                    : value === 22
+                    ? "white"
+                    : "transparent",
 
-              background:
-                value === 11 ? "green" : value === 22 ? "red" : "white",
-            }}
-            onClick={() => handleClick(idx)}
-          >
-            {value === 1 || 11 ? "X" : value === 2 || 22 ? "O" : "."}
-          </div>
-        ))}
-      </div>{" "}
-      <div className="font-mono text-[1.5rem]">
-        {turn === 1 ? "your's" : "enemy's"}
+                background:
+                  value === 11 ? "green" : value === 22 ? "red" : "white",
+              }}
+              onClick={() => handleClick(idx)}
+            >
+              {value === 1 || 11 ? "X" : value === 2 || 22 ? "O" : "."}
+            </div>
+          ))}
+        </div>{" "}
+        <div className="font-mono text-[1.5rem]">
+          {turn === 1 ? "your's" : "enemy's"}
+        </div>
+        <Banner />
       </div>
-      <Banner />
     </div>
   );
 };

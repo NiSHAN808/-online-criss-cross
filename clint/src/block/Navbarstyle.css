@@ -1,0 +1,30 @@
+@media only screen and (max-width: 768px) {
+  .pages {
+    z-index: 10;
+    display: none;
+
+    height: 100vh;
+    justify-content: center;
+
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    backdrop-filter: blur(6px);
+    background-color: #6161611f;
+    border-right: solid 2px #ffffff87;
+    border-top: solid 2px #ffffff87;
+    box-shadow: inset 6px -6px 20px 6px #f5f5f51f;
+    font-size: 5vw;
+  }
+
+  .pages a {
+    margin-top: 5%;
+  }
+
+  .hamburger {
+    display: initial;
+  }
+}
