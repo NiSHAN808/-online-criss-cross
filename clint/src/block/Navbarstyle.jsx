@@ -29,13 +29,16 @@ function Navbar() {
           >
             <img
               loading="lazy"
-              src="../images/logo-ec.png"
+              src="logo-t.png"
               className=" h-[8vw] lg:h-[3.5vw] xl:h-[2.5vw] 2xl:h-[1.8vw]"
             />
           </Link>
         </div>
 
-        <div onClick={handleHamClick} className="hidden hamburger z-5 mr-[5vw]">
+        <div
+          onClick={handleHamClick}
+          className="hidden hamburger z-15 mr-[5vw]"
+        >
           <svg
             width="40"
             height="40"
