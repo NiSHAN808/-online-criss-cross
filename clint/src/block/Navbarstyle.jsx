@@ -27,11 +27,13 @@ function Navbar() {
             to={link}
             className="inline-flex justify-center h-fit  inline w-[40vw] h-[10vw] overflow-hidden   p-[1vw]  "
           >
-            <img
-              loading="lazy"
-              src="logo-t.png"
-              className=" h-[8vw] lg:h-[3.5vw] xl:h-[2.5vw] 2xl:h-[1.8vw]"
-            />
+            <div
+              className=" h-[8vw] lg:h-[3.5vw] xl:h-[2.5vw] 2xl:h-[1.8vw] text-[1.5rem] "
+              style={{ fontFamily: "cursive", color: "rgb(182 255 182)" }}
+            >
+              {" "}
+              Criss Corss
+            </div>
           </Link>
         </div>
 
@@ -45,7 +47,7 @@ function Navbar() {
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            stroke="black"
+            stroke="white"
             stroke-width="10"
             stroke-linecap="round"
           >
