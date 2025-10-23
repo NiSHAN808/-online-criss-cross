@@ -1,16 +1,18 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'  
-import GameMenu from './GameMenu.jsx';
-import App from './App.jsx'
-import './index.css';
-const router =createBrowserRouter([
-  {path:"/", element: <GameMenu/>},
-  {path:"/pwf", element: <App/>}
-]) 
-createRoot(document.getElementById('root')).render(
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import GameMenu from "./GameMenu.jsx";
+import App from "./App.jsx";
+import FriendsOffline from "./FriendsOffline.jsx";
+import "./index.css";
+const router = createBrowserRouter([
+  { path: "/", element: <GameMenu /> },
+  { path: "/pwr", element: <App /> },
+  { path: "/pwoffline", element: <FriendsOffline /> },
+]);
+createRoot(document.getElementById("root")).render(
   // <StrictMode>
-    // <App />
-  <RouterProvider router={router}/>
+  // <App />
+  <RouterProvider router={router} />
   // </StrictMode>,
-)
+);

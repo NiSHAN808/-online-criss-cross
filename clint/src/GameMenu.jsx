@@ -32,10 +32,10 @@ const GameMenu = () => {
               id="play-with-friends"
               className="text-2xl font-sans h-14 w-[17rem] flex justify-center items-center rounded-2xl mb-6 shadow-md hover:bg-amber-100 cursor-pointer"
             >
-              <Link to="/pwf"> Play with friends</Link>
+              <Link to="/pwr"> Play with Random</Link>
             </li>
             <li className="text-2xl font-sans h-14 w-[17rem] flex justify-center items-center rounded-2xl mb-6 shadow-md hover:bg-amber-100 cursor-default">
-              Play with random
+              <Link to="/pwoffline"> Play Offline</Link>
             </li>
             <li className="text-2xl font-sans h-14 w-[17rem] flex justify-center items-center rounded-2xl mb-6 shadow-md hover:bg-amber-100 cursor-default">
               Setting
