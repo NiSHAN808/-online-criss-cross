@@ -11,7 +11,7 @@ const FriendsOffline = () => {
   const [enemyLife, setEnemyLife] = useState(3);
   const [positions, setPositions] = useState(Array(9).fill(null));
   const [playerNumber, setPlayerNumber] = useState(null);
-  const [turn, setTurn] = useState(null);
+  const [turn, setTurn] = useState(1);
   const [winner, setWinner] = useState(null);
 
   console.log(positions);
@@ -66,12 +66,12 @@ const FriendsOffline = () => {
     setTurn(1);
   };
 
-  useEffect(() => {
-    if (turn !== null) {
-      gamecheck(positions, turn === 1 ? 2 : 1); // Check previous player’s move
-    }
-    handleMove();
-  }, [positions]);
+  // useEffect(() => {
+  //   if (turn !== null) {
+  //     gamecheck(positions, turn === 1 ? 2 : 1); // Check previous player’s move
+  //   }
+  //   handleMove();
+  // }, [positions]);
 
   const updatePosition = (index, player) => {
     setPositions((prev) => {
@@ -83,10 +83,12 @@ const FriendsOffline = () => {
   console.log(turn);
   const handleClick = (index) => {
     if (positions[index] === null) {
-      if (turn === 1) {
-        updatePosition(index, 1);
+      updatePosition(index, turn);
 
+      if (turn === 1) {
         setTurn(2);
+      } else {
+        setTurn(1);
       }
     }
   };
@@ -221,7 +223,12 @@ const FriendsOffline = () => {
               }}
               onClick={() => handleClick(idx)}
             >
-              {value === 1 || 11 ? "X" : value === 2 || 22 ? "O" : "."}
+              {/* {value === 1 || 11 ? "X" : value === 2 || 22 ? "O" : "."} */}
+              {value === 1 || value === 11
+                ? "X"
+                : value === 2 || value === 22
+                ? "O"
+                : "."}
             </div>
           ))}
         </div>{" "}
