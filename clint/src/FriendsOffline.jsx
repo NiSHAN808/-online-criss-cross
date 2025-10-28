@@ -20,7 +20,7 @@ const FriendsOffline = () => {
     setPositions(Array(9).fill(null));
     setWinner(null);
   }
-
+  //banner is winner banner
   function Banner() {
     return (
       <div
@@ -36,7 +36,7 @@ const FriendsOffline = () => {
               color: winner === 1 ? "green" : "#cc0000",
             }}
           >
-            {winner === 1 ? "You Win The Round" : `${enemyName} Win The Round`}
+            {winner === 1 ? "Player-2 Win The Round" : `Player-2 Win The Round`}
           </div>
           <div className="inline-flex  justify-center">next round</div>
           <div className="inline-flex w-full justify-between pl-[2vw] pr-[2vw] mt-[2vw]">
@@ -60,18 +60,17 @@ const FriendsOffline = () => {
     );
   }
 
-  const handleMove = (index) => {
-    updatePosition(index, 2);
+  // const handleMove = (index) => {
+  //   updatePosition(index, 2);
 
-    setTurn(1);
-  };
+  //   setTurn(1);
+  // };
 
-  // useEffect(() => {
-  //   if (turn !== null) {
-  //     gamecheck(positions, turn === 1 ? 2 : 1); // Check previous player’s move
-  //   }
-  //   handleMove();
-  // }, [positions]);
+  useEffect(() => {
+    if (turn !== null) {
+      gamecheck(positions, turn === 1 ? 2 : 1); // Check previous player’s move
+    }
+  }, [positions]);
 
   const updatePosition = (index, player) => {
     setPositions((prev) => {
@@ -233,7 +232,7 @@ const FriendsOffline = () => {
           ))}
         </div>{" "}
         <div className="font-mono text-[1.5rem]">
-          {turn === 1 ? "your's" : "enemy's"}
+          {turn === 1 ? "Player-1" : "Player-2"}
         </div>
         <Banner />
       </div>
