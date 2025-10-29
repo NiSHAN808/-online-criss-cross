@@ -38,7 +38,7 @@ const GameMenu = () => {
               <Link to="/pwoffline"> Play Offline</Link>
             </li>
             <li className="text-2xl font-sans h-14 w-[17rem] flex justify-center items-center rounded-2xl mb-6 shadow-md hover:bg-amber-100 cursor-default">
-              Setting
+              <Link to="/setting"> Setting</Link>
             </li>
           </ul>
         </div>
