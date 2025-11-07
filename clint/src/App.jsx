@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import PlayWithFriends from './Play'
+import { useState } from "react";
+import PlayWithFriends from "./Play";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
-<PlayWithFriends/>
+      <PlayWithFriends />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

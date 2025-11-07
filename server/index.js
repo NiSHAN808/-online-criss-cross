@@ -7,8 +7,8 @@ const PORT = process.env.PORT || 8000;
 
 const io = require("socket.io")(http, {
   cors: {
-    // origin: "http://localhost:5173", // Your frontend's origin
-    origin: "https://online-criss-cross.onrender.com",
+    origin: "http://localhost:5173", // Your frontend's origin
+    // origin: "https://online-criss-cross.onrender.com",
     methods: ["GET", "POST"],
   },
 });
@@ -27,6 +27,7 @@ var waiting_player;
 var room_id = 0;
 
 io.on("connection", (Socket) => {
+  console.log("connected0");
   Socket.on("i-pn-s", (name) => {
     players.push(Socket.id);
     numbers_of_players++;

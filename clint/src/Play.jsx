@@ -71,8 +71,8 @@ export const PlayWithFriends = () => {
   }
 
   useEffect(() => {
-    // socket = io("http://localhost:8000");
-    socket = io("https://crisscross-server-4k5q.onrender.com");
+    socket = io("http://localhost:8000");
+    // socket = io("https://crisscross-server-4k5q.onrender.com");
     let name = localStorage.getItem("name");
     if (name === null) name = "Guest";
     setYourName(name);
@@ -211,6 +211,7 @@ export const PlayWithFriends = () => {
       setEnemyLife((prev) => prev - 1);
     }
     setWinner(number);
+    setTurn(number);
   }
 
   return (
