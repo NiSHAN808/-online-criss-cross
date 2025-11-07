@@ -14,12 +14,11 @@ const FriendsOffline = () => {
   const [turn, setTurn] = useState(1);
   const [winner, setWinner] = useState(null);
 
-  console.log(positions);
-
   function nextRoundClick() {
     setPositions(Array(9).fill(null));
     setWinner(null);
   }
+
   //banner is winner banner
   function Banner() {
     return (
@@ -79,7 +78,7 @@ const FriendsOffline = () => {
       return updated;
     });
   };
-  console.log(turn);
+
   const handleClick = (index) => {
     if (positions[index] === null) {
       updatePosition(index, turn);
@@ -109,61 +108,30 @@ const FriendsOffline = () => {
   };
 
   function gamecheck(positions, number) {
-    if (
-      positions[0] == number &&
-      positions[1] == number &&
-      positions[2] == number
-    ) {
-      win(0, 1, 2, number);
+    const wins = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    for (const [a, b, c] of wins) {
+      if (
+        positions[a] === number &&
+        positions[b] === number &&
+        positions[c] === number
+      ) {
+        win(a, b, c, number);
+        return;
+      }
     }
-    if (
-      positions[3] == number &&
-      positions[4] == number &&
-      positions[5] == number
-    ) {
-      win(3, 4, 5, number);
-    }
-    if (
-      positions[6] == number &&
-      positions[7] == number &&
-      positions[8] == number
-    ) {
-      win(6, 7, 8, number);
-    }
-    if (
-      positions[0] == number &&
-      positions[3] == number &&
-      positions[6] == number
-    ) {
-      win(0, 3, 6, number);
-    }
-    if (
-      positions[1] == number &&
-      positions[4] == number &&
-      positions[7] == number
-    ) {
-      win(1, 4, 7, number);
-    }
-    if (
-      positions[2] == number &&
-      positions[5] == number &&
-      positions[8] == number
-    ) {
-      win(2, 5, 8, number);
-    }
-    if (
-      positions[0] == number &&
-      positions[4] == number &&
-      positions[8] == number
-    ) {
-      win(0, 4, 8, number);
-    }
-    if (
-      positions[2] == number &&
-      positions[4] == number &&
-      positions[6] == number
-    ) {
-      win(2, 4, 6, number);
+
+    if (!positions.includes(null)) {
+      console.log("no winner");
     }
   }
 
