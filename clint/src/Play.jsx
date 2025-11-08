@@ -254,7 +254,11 @@ export const PlayWithFriends = () => {
               }}
               onClick={() => handleClick(idx)}
             >
-              {value === 1 || 11 ? "X" : value === 2 || 22 ? "O" : "."}
+              {value === 1 || value === 11
+                ? "X"
+                : value === 2 || value === 22
+                ? "O"
+                : "."}
             </div>
           ))}
         </div>{" "}
