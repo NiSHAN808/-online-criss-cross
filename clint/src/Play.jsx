@@ -53,13 +53,13 @@ export const PlayWithFriends = () => {
             <Link
               to="/"
               type="button"
-              class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+              className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             >
               exit game
             </Link>
             <button
               type="button"
-              class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
               onClick={nextRoundClick}
             >
               next round
@@ -87,6 +87,7 @@ export const PlayWithFriends = () => {
       });
 
       socket.on(socket.id + "moves", handleMove);
+      socket.on(socket.id + "chat", handleChat);
     };
 
     const handleMove = (index) => {
@@ -94,12 +95,12 @@ export const PlayWithFriends = () => {
 
       setTurn(1);
     };
+    const handleChat = (message) => {
+      console.log(message);
+    };
 
     socket.on("connect", handleConnect);
-    // console.log(socket.id);
-    // socket.on(socket.id + "moves", handleMove);
 
-    // Cleanup
     return () => {
       socket.off("connect", handleConnect);
       socket.off(socket.id, handleConnect);
@@ -121,6 +122,12 @@ export const PlayWithFriends = () => {
       return updated;
     });
   };
+
+  const chat = (message) => {
+    // socket.emit("game-chat", playerNumber, message);
+    console.log(message);
+  };
+  chat("hwllow");
 
   const handleClick = (index) => {
     if (positions[index] === null && turn === 1) {

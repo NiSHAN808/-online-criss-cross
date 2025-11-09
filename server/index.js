@@ -45,8 +45,10 @@ io.on("connection", (Socket) => {
     }
     Socket.on("game-move", (enmy, position) => {
       let temp = players[enmy] + "moves";
+      let chatVar = players[enmy] + "chat";
       console.log(temp);
       Socket.broadcast.emit(temp, position);
+      Socket.broadcast.emit(chatVar, "did move");
     });
   });
 

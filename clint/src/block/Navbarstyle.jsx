@@ -39,7 +39,7 @@ function Navbar() {
 
         <div
           onClick={handleHamClick}
-          className="hidden hamburger z-15 mr-[5vw]"
+          className="hidden hamburger z-200 mr-[5vw]"
         >
           <svg
             width="40"
@@ -48,8 +48,8 @@ function Navbar() {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             stroke="white"
-            stroke-width="10"
-            stroke-linecap="round"
+            strokeWidth="10"
+            strokeLinecap="round"
           >
             <line x1="20" y1="30" x2="80" y2="30" />
             <line x1="20" y1="50" x2="80" y2="50" />
