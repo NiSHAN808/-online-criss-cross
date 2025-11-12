@@ -6,9 +6,6 @@ const socket = io();
 
 const GameMenu = () => {
   useEffect(() => {
-    //const name = prompt("Enter your name");
-    //  localStorage.setItem("name", name);
-
     const playWithFriends = document.getElementById("play-with-friends");
     playWithFriends.addEventListener("click", () => {
       socket.emit("pwr-page-r", name);

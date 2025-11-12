@@ -71,9 +71,6 @@ function Navbar() {
           >
             Profile
           </Link>
-          {/* <a className="hover:text-purple-700 ">home</a>
-                    <a className="hover:text-purple-700 ">products</a>
-                    <a className="hover:text-purple-700 ">cart</a> */}
         </div>
       </nav>
     </div>
